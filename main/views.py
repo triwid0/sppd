@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import UserNew
+from .models import MasterJabatan
 
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
@@ -25,7 +26,29 @@ def sppd(request):
     return render(request, 'sppd/input_sppd.html')
 
 def jabatan(request):
-    return render(request, 'master/master_jabatan.html')
+    jabatan = MasterJabatan.objects.all()
+    contex = {
+        'jabatan' : jabatan
+    }
+    return render(request, 'master/master_jabatan.html', contex)
+
+def tambah(request):
+    if request.method == "POST":
+        jabatan = request.POST.get('jabatan')
+
+        insert = MasterJabatan()
+        insert.jabatan = jabatan
+
+        insert.save()
+
+        return redirect('SPPD:jabatan')
+
+def editData(request, idedit=""):
+    if request.method == "POST":
+        
+        jabatan = request.POST['jabatanedit']
+        MasterJabatan.objects.filter(id=idedit).update(jabatan = jabatan)
+        return redirect('SPPD:jabatan')
 
 def kegiatan(request):
     return render(request, 'master/master_kegiatan.html')
@@ -87,3 +110,9 @@ def addUser(request):
         return redirect('SPPD:login')
 
     return render(request, 'auth/addUser.html', contex)
+
+def hapus(request, idedit):
+    hapus = MasterJabatan.objects.get(id=idedit)
+
+    hapus.delete()
+    return redirect('SPPD:jabatan')

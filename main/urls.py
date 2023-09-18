@@ -7,6 +7,12 @@ app_name = 'SPPD'
 urlpatterns = [
     path('', views.loginUser, name='login'),
     path('adduser/', views.addUser, name='adduser'),
+    path('master_jabatan/tambah/', views.tambah, name='tambah'),
+    path('master_jabatan/hapus/<int:idedit>', views.hapus, name='hapus'),
+    # path('form_edit/', views.form_edit, name='formEdit'),
+    path('master_jabatan/edit/<int:idedit>', views.editData, name='editData'),
+
+    # path('data/', views.read, name='read'),
 
     path('dash/', views.dash, name='dash'),
     path('laporan/', views.laporan, name='laporan'),
